@@ -1,4 +1,4 @@
-# 🧠 EsencIAs
+# 🐥 EsencIAs
 
 **EsencIAs** es un juego interactivo para Discord donde cuidás a tu propia **EsencIA**: un ser virtual que aprende, evoluciona y cambia según tus decisiones e interacciones.
 
