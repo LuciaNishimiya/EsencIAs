@@ -9,6 +9,10 @@ Cada EsencIA es única. Cambia con el tiempo, reflejando la forma en que el usua
 
 ---
 
+## Contribuciones
+
+Las contribuciones al proyecto son bienvenidas y apreciadas.  
+Para conocer las pautas y recomendaciones al respecto, consulte la [Guía de Contribución](./CONTRIBUTING.md).
 
 
 ## Licencia
