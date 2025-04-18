@@ -1,0 +1,33 @@
+{
+  "name": "esencias",
+  "version": "1.0.0",
+  "description": "EsencIAs es un juego interactivo para Discord donde cuidás a tu propia EsencIA: un ser virtual que aprende, evoluciona y cambia según tus decisiones e interacciones.",
+  "keywords": [
+    "tamagotchi"
+  ],
+  "homepage": "https://github.com/LuciaNishimiya/EsencIAs#readme",
+  "bugs": {
+    "url": "https://github.com/LuciaNishimiya/EsencIAs/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LuciaNishimiya/EsencIAs.git"
+  },
+  "license": "MIT",
+  "author": "LuciaNishimiya",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "nodemon",
+    "start": "node src/index.js",
+    "delcmd": "node src/utils/deleteCommands.js"
+  },
+  "dependencies": {
+    "@google/genai": "^0.9.0",
+    "discord.js": "^14.18.0",
+    "dotenv": "^16.5.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}
