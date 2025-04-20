@@ -19,11 +19,5 @@ client.once('ready', async () => {
   });
 });
 
-client.on('messageCreate', (message) => {
-  if (message.author.bot) return;
-  if (message.content === 'ping') {
-    message.reply('pong');
-  }
-});
 
 client.login(process.env.DISCORD_BOT_TOKEN);
