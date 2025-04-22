@@ -7,56 +7,54 @@ import { text, real, integer, foreignKey, sqliteTable as table, primaryKey } fro
 export const user = table(
     "user",
     {
-        id: text("id").notNull(),               // ID global del usuario (por ejemplo, Discord ID)
-        guildId: text("guildId").notNull(),     // ID del servidor (guild)
-        channelId: text("channelId").notNull(), // ID del canal donde el usuario interactúa con el bot
+        id: text("id").primaryKey().notNull(), // ID del Discord del usuario
         name: text("name").notNull(),           // Nombre del usuario
-    },
-    (user) => [
-        primaryKey({ columns: [user.id, user.guildId] }) // Clave primaria compuesta (un usuario por servidor)
-    ]
+    }
 );
 
 /**
- * Tabla de tamagochis (esencias).
+ * Tabla de esencias.
  * Cada esencia está ligada a un usuario dentro de un servidor.
  */
 export const esencia = table(
     "esencia",
     {
-        id: text("id").primaryKey(),                // ID único del tamagochi
-        name: text("name").notNull(),               // Nombre del tamagochi
-        userId: text("userId").notNull(),           // ID del usuario dueño del tamagochi
+        id: integer("id").primaryKey(),                // ID de la esencia
+        name: text("name").notNull(),               // Nombre de la esencia 
+        userId: text("userId").notNull(),           // ID del usuario dueño de la esencia
         guildId: text("guildId").notNull(),         // ID del servidor donde se encuentra
-        hunger: integer("hunger").notNull(),        // Nivel de hambre
-        happiness: integer("happiness").notNull(),  // Nivel de felicidad
-        energy: integer("energy").notNull(),        // Nivel de energía
-        age: integer("age").notNull(),              // Porcentaje de crecimiento del tamagochi (0 a 100)
+        channelId: text("channelId").notNull(),     // ID del canal donde el usuario interactúa con la esencia
+        hunger: real("hunger").notNull().default(50),      // Nivel de hambre 
+        happiness: real("happiness").notNull().default(50),// Nivel de felicidad
+        energy: real("energy").notNull().default(20),      // Nivel de energía
+        love: real("love").notNull().default(50),          // Nivel de amor
+        health: real("health").notNull().default(100),     // Salud de la esencia
+        createdAt: text("createdAt").notNull(),     // Fecha de creación de la esencia
+        lastInteraction: text("lastInteraction"),   // Fecha de la última interacción con la esencia
     },
     (esencia) => [
         foreignKey({
-            columns: [esencia.userId, esencia.guildId],     // Columnas locales de referencia
-            foreignColumns: [user.id, user.guildId],         // Referencia a la tabla 'user'
+            columns: [esencia.userId],     // Columnas locales de referencia
+            foreignColumns: [user.id],         // Referencia a la tabla 'user'
         })
     ]
 );
 
 /**
  * Tabla de aprendizajes.
- * Representa conocimientos o habilidades aprendidas por un tamagochi.
+ * Representa conocimientos o habilidades aprendidas por una esencia.
  */
 export const learning = table(
     "learning",
     {
-        id: text("id").primaryKey(),              // ID único del aprendizaje
-        esenciaId: text("esenciaId").notNull(),   // ID del tamagochi (esencia)
-        name: text("name").notNull(),             // Nombre del aprendizaje
-        level: integer("level").notNull(),        // Nivel del aprendizaje
+        id: integer("id").primaryKey(), // ID autoincremental
+        esenciaId: text("esenciaId").notNull(), // FK a esencia 
+        knowledge: text("knowledge").notNull(), // Conocimiento o habilidad aprendida
     },
     (learning) => [
         foreignKey({
-            columns: [learning.esenciaId],        // Columna local
-            foreignColumns: [esencia.id],         // Referencia a 'esencia.id'
+            columns: [learning.esenciaId],
+            foreignColumns: [esencia.id],
         })
     ]
 );
@@ -78,14 +76,13 @@ export const aiKeys = table(
 );
 
 /**
- * Tabla de estilo visual del tamagochi.
- * Cada tamagochi puede tener su propio color de ropa y accesorio opcional.
+ * Tabla de estilo visual de la esencia.
+ * Cada esencia puede tener su propio color de ropa y accesorio opcional.
  */
 export const style = table(
     "style",
     {
-        id: text("id").primaryKey(),              // ID único del estilo
-        esenciaId: text("esenciaId").notNull(),   // ID del tamagochi al que pertenece este estilo
+        esenciaId: text("esenciaId").primaryKey().notNull(),   // ID de la esencia (clave primaria y FK)
         clothingColor: text("clothingColor"),     // Color de la ropa (puede estar vacío)
         accessory: text("accessory"),             // Accesorio opcional (puede estar vacío)
     },
@@ -99,13 +96,13 @@ export const style = table(
 
 /**
  * Tabla de objetos en el mapa.
- * Los objetos están ubicados por coordenadas y relacionados con un tamagochi.
+ * Los objetos están ubicados por coordenadas y relacionados con una esencia.
  */
 export const map = table(
     "map",
     {
-        id: text("id").primaryKey(),         // ID único del objeto
-        esenciaId: text("esenciaId").notNull(), // FK al tamagochi propietario
+        id: integer("id").primaryKey(),         // ID único del objeto
+        esenciaId: text("esenciaId").notNull(), // FK a la esencia propietaria
         name: text("name").notNull(),        // Nombre o tipo del objeto
         x: real("x").notNull(),              // Coordenada X
         y: real("y").notNull(),              // Coordenada Y
